@@ -30,7 +30,7 @@ func main() {
 		offsets[i] = int64(offset)
 		if err != nil {
 			fmt.Println(err)
-			fmt.Println(out)
+			fmt.Println(string(out))
 			os.Exit(1)
 		}
 		if !*summary {
