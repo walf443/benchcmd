@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"math"
 	"os"
 	"os/exec"
 	"time"
@@ -43,6 +44,7 @@ func main() {
 func report(times int64, offsets []int64) {
 	fmt.Printf("count:\t%d times executed\n", times)
 	fmt.Printf("avg:\t%s\n", time.Duration(average(times, offsets)))
+	fmt.Printf("stdev:\t%s\n", time.Duration(stdev(times, offsets)))
 }
 
 func average(times int64, offsets []int64) int64 {
@@ -51,4 +53,15 @@ func average(times int64, offsets []int64) int64 {
 		result += v
 	}
 	return result / times
+}
+
+func stdev(times int64, offsets []int64) float64 {
+	result := int64(0)
+
+	avg := average(times, offsets)
+	for _, v := range offsets {
+		diff := v - avg
+		result += diff * diff
+	}
+	return math.Sqrt(float64(result / (times + int64(1))))
 }
