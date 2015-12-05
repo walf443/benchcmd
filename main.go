@@ -11,6 +11,7 @@ import (
 
 var times *int = flag.Int("n", 10, "number of times to run")
 var summary *bool = flag.Bool("summary", false, "only output summary result")
+var shell *string = flag.String("shell", "sh", "shell name to execute")
 
 func main() {
 	flag.Parse()
@@ -24,7 +25,7 @@ func main() {
 	offsets := make([]int64, *times)
 	fmt.Printf("run \"%s\"\n", cmd)
 	for i := 0; i < *times; i++ {
-		out, err := exec.Command("sh", "-c", shellCmd).CombinedOutput()
+		out, err := exec.Command(*shell, "-c", shellCmd).CombinedOutput()
 		now := time.Now()
 		offset := now.Sub(prevTime)
 		offsets[i] = int64(offset)
