@@ -16,8 +16,8 @@ Usage of benchcmd:
 # Example Output
 
 ```
-benchcmd -n 10 'go version'
-$ run "go version"
+$ benchcmd -n 10 'go version'
+run "go version"
 15.711435ms
 19.42685ms
 19.967876ms
