@@ -8,7 +8,8 @@ import (
 	"time"
 )
 
-var times *int = flag.Int("num", 10, "times to run")
+var times *int = flag.Int("n", 10, "number of times to run")
+var summary *bool = flag.Bool("summary", false, "only output summary result")
 
 func main() {
 	flag.Parse()
@@ -20,6 +21,7 @@ func main() {
 	shellCmd := cmd + " > /dev/null"
 	prevTime := time.Now()
 	offsets := make([]int64, *times)
+	fmt.Printf("run \"%s\"\n", cmd)
 	for i := 0; i < *times; i++ {
 		out, err := exec.Command("sh", "-c", shellCmd).CombinedOutput()
 		now := time.Now()
@@ -30,10 +32,11 @@ func main() {
 			fmt.Println(out)
 			os.Exit(1)
 		}
-		fmt.Println(offset)
+		if !*summary {
+			fmt.Println(offset)
+		}
 		prevTime = time.Now()
 	}
-	fmt.Printf("run \"%s\"\n", cmd)
 	report(int64(*times), offsets)
 }
 
